@@ -267,10 +267,10 @@
     activateQuickView = function() {
         const quickView = $("#quick-view"),
             overlay = $("#content-overlay"),
-            id = this.dataset.id;
+            handle = this.dataset.handle;
         quickView.css({"visibility": "visible","opacity": "1"});
         overlay.css({"visibility": "visible", "opacity": "0.5"})
-        getProductById(id);
+        getProductById(handle);
     }
 
     deactivateQuickView = function() {
@@ -307,8 +307,8 @@
         addProductToCart(payload);
     }
 
-    getProductById = function(id) {
-        const url = "/admin/api/2019-07/products/" + id + ".json";
+    getProductById = function(handle) {
+        const url = "/products/" + handle + ".js";
         const settings = {
             success: getProductSuccess,
             error: ajaxError,
@@ -350,14 +350,15 @@
     }
 
     getProductSuccess = function(data) {
-        console.log(data);
-        const id = data.product.variants[0].id,
-            vendor = data.product.vendor,
-            sku = data.product.variants[0].sku,
-            title = data.product.title,
-            price = data.product.variants[0].price,
-            description = data.product.body_html,
-            image = data.product.image.src.replace(".png", "_595x.png");
+        const jsonData = JSON.parse(data);
+        const id = jsonData.variants[0].id,
+            vendor = jsonData.vendor,
+            sku = jsonData.variants[0].sku,
+            title = jsonData.title,
+            price = jsonData.price,
+            description = jsonData.description,
+            image = jsonData.featured_image.replace(".png", "_595x.png");
+        console.log(id);
         $("#buyBtn").attr("data-id", id);
         $(".quick-view__vendor").text(vendor);
         $(".quick-view__sku").text(sku);

@@ -53,7 +53,7 @@
             </span>
             </a>
             {% if settings.quick-view %}
-            <button class="featured-products-item__button" data-id="{{ product.id }}">{{ settings.qv-btn-text }}</button>
+            <button class="featured-products-item__button" data-handle="{{ product.handle }}">{{ settings.qv-btn-text }}</button>
             {% else %}
             <div class="featured-products-item__block">{{ section.settings.button-text }}</div>
             {% endif %}
