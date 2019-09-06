@@ -1,0 +1,70 @@
+<style>
+  .banner {
+    background-image: url({{ section.settings.background-mobile | img_url: '1965x' }});
+    background-position: left 75%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: calc(100vh - 3em);
+    position: relative;
+  }
+
+  @media only screen and (min-device-width : 768px) {
+    .banner {
+      background-image: url({{ section.settings.background-desktop | img_url: '1965x' }});
+    }
+  }
+</style>
+
+<div class="banner">
+  <div class="banner__content">
+    <h2 class="banner__header">{{ section.settings.title }}</h2>
+    <p class="banner__description">{{ section.settings.text }}</p>
+    <a class="banner__button" href="{{ section.settings.button_link }}">{{ section.settings.button_label }}</a>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Banner",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "background-mobile",
+        "label": "Mobile Background Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "background-desktop",
+        "label": "Desktop Background Image"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Image with text"
+      },
+      {
+        "type": "text",
+        "id": "text",
+        "label": "Text",
+        "default": "Pair large text with an image to give focus to your chosen product, collection, or blog post. Add details on availability, style, or even provide a review."
+      },
+      {
+        "type": "text",
+        "id": "button_label",
+        "label": "Button Label"
+      },
+      {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button Link"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Banner",
+        "category": "Image"
+      }
+    ]
+  }
+{% endschema %}

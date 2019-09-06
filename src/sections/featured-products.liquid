@@ -1,0 +1,105 @@
+{%- comment -%}
+  This is a required section for the Shopify Theme Store.
+  It is available in the "Featured Collection" section in the theme editor.
+
+  Theme Store required settings
+  - Collection
+
+  Theme Store optional settings
+  - Heading: title of the featured collection section
+{%- endcomment -%}
+<section class="featured-products">
+    {% if section.settings.title != blank %}
+        <h2 class="featured-products__title">{{ section.settings.title | escape }}</h2>
+    {% endif %}
+      
+    {%- assign collection = collections[section.settings.collection] -%}
+    
+    <div class="featured-products__container">
+    {% for product in collection.products limit: 6 %}
+        <div class="featured-products-item featured-product">
+            {% if product.featured_image != blank %}
+            <a href="{{ product.url | within: collection }}" >
+                <div class="featured-products-item__image">
+                {% include 'responsive-image' with
+                    image: product.featured_image,
+                    max_width: 480,
+                    max_height: 480
+                %}
+                </div>
+            </a>
+            {% endif %}
+            <a href="{{ product.url | within: collection }}" class="featured-products-item">
+                <p class="featured-products-item__title">{{ product.title | escape }}</p>
+            </a>
+            <a href="{{ product.url | within: collection }}" class="featured-products-item">
+            <span class="featured-products-item__price">
+                {% if product.compare_at_price > product.price %}
+                    {% if product.price_varies %}
+                        {%- assign sale_price = product.price | money -%}
+                        {{ 'products.product.on_sale_from_html' | t: price: sale_price }}
+                    {% else %}
+                        {{ 'products.product.on_sale' | t }}
+                        {{ product.price | money }}
+                    {% endif %}
+                {% else %}
+                    {% if product.price_varies %}
+                        {%- assign price = product.price | money -%}
+                        {{ 'products.product.from_text_html' | t: price: price }}
+                    {% else %}
+                        {{ product.price | money }}
+                    {% endif %}
+                {% endif %}
+            </span>
+            </a>
+            {% if settings.quick-view %}
+            <button class="featured-products-item__button" data-id="{{ product.id }}">{{ settings.qv-btn-text }}</button>
+            {% else %}
+            <div class="featured-products-item__block">{{ section.settings.button-text }}</div>
+            {% endif %}
+        </div>
+        {% else %}
+        {% for i in (1..6) %}
+            <a href="#" class="featured-collection-item">
+              {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+              {{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg placeholder-svg--small' }}
+      
+              <p>{{ 'homepage.onboarding.product_title' | t }}</p>
+              <p>{{ 1999 | money }}</p>
+            </a>
+        {% endfor %}
+    {% endfor %}
+    </div>
+
+</section>
+      
+{% schema %}
+    {
+        "name": "Featured products",
+        "settings": [
+            {
+              "type": "text",
+              "id": "title",
+              "label": "Heading",
+              "default": "Featured products"
+            },
+            {
+              "id": "collection",
+              "type": "collection",
+              "label": "Collection"
+            },
+            {
+                "id": "button-text",
+                "type": "text",
+                "label": "Button Text"
+            }
+        ],
+        "presets": [
+            {
+              "name": "Featured products",
+              "category": "Collection"
+            }
+        ]
+    }
+{% endschema %}
+      

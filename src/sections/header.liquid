@@ -1,0 +1,327 @@
+{%- comment -%}
+  This is a required section for the Shopify Theme Store.
+  It is available in the "Header" section in the theme editor.
+
+  Theme Store required settings
+  - Show announcement
+  - Text: message to announce
+  - Link: link of the announcement bar
+
+  Theme Store optional settings
+  - Home page only: only shows on the home page
+{%- endcomment -%}
+
+<section data-section-id="{{ section.id }}" data-section-type="header" class="header">
+
+  <!-- ANNOUNCEMENT -->
+  {%- if section.settings.announcement_bar_enabled -%}
+    <div class="header__announcement">
+      {%- if section.settings.announcement_bar_home_page_only == false or template.name == 'index' -%}
+        {%- if section.settings.announcement_bar_link != blank -%}
+          <a href="{{ section.settings.announcement_bar_link }}">
+            {{ section.settings.announcement_bar_text | escape }}
+          </a>
+        {%- else -%}
+          <p class="header__announcement-text">{{ section.settings.announcement_bar_text | escape }}</p>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  <!-- HEADER -->
+  <header class="header__bar" role="banner">
+
+    <!-- CART COUNT -->
+    {% if settings.ajax_cart %}
+    <div class="header__cart-count">
+        <span id="headerCartCount" class="header__cart-count-number">{{ cart.item_count }}</span>
+    </div>
+    {% endif %}
+
+    <!-- LOGO/TITLE -->
+    {% if section.settings.svg_logo_enabled %}
+      {% include 'svg-logo' %}
+    {% else %}
+    
+    {% if template.name == 'index' %}
+      <h1 class="header__title">
+    {% else %}
+      <div class="h1 header__title">
+    {% endif %}
+        <a href="/" class="logo-image">
+          {% if section.settings.logo != blank %}
+            {% capture image_size %}{{ section.settings.logo_max_width }}x{% endcapture %}
+            <img src="{{ section.settings.logo | img_url: image_size }}"
+                srcset="{{ section.settings.logo | img_url: image_size }} 1x, {{ section.settings.logo | img_url: image_size, scale: 2 }} 2x"
+                alt="{{ section.settings.logo.alt | default: shop.name }}">
+          {% else %}
+            {{ shop.name }}
+          {% endif %}
+        </a>
+    {% if template.name == 'index' %}
+      </h1>
+    {% else %}
+      </div>
+    {% endif %}
+
+    {% endif %}
+
+    <!-- NAVIGATION MENU -->
+    <input class="header__hamburger" type="checkbox" name="navigation" value="Ham">
+    <nav class="mobile-nav" role="navigation">
+
+        <ul class="mobile-nav__list">
+          {% if settings.mega-menu %}
+          <li id="mega-menu-activator" class="mobile-nav__listItem mega-menu__activator">
+              <div class="mobile-nav__category">
+                <span>{{ settings.mega-menu-title }}</span>
+                {% include 'icon-plus' %}
+              </div>
+          </li>
+          {% endif %}
+          {% for link in linklists[section.settings.menu].links %}
+            {% if link.links != blank %}
+              <li class="mobile-nav__listItem mobile-nav__expand-list">
+                <div class="mobile-nav__category">
+                  <span>{{ link.title }}</span>
+                  {% include 'icon-plus' %}
+                </div>
+                <ul class="mobile-nav__subList">
+                  {% for childlink in link.links %}
+                    <li class="mobile-nav__subListItem">
+                      <a class="mobile-nav__subLink" href="{{ childlink.url }}">
+                        {{ childlink.title }}
+                      </a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </li>
+            {% else %}
+              <li class="mobile-nav__listItem">
+                <a class="mobile-nav__listLink" href="{{ link.url }}">
+                  {{ link.title }}
+                </a>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+        
+        <div class="mobile-nav__footer">
+            <!--  
+            <form action="/search" method="get" role="search">
+              <label for="Search-{{ section.id }}" class="label-hidden">
+                {{ 'general.search.placeholder' | t }}
+              </label>
+    
+              <input type="search"
+                name="q"
+                id="Search-{{ section.id }}"
+                value="{{ search.terms | escape }}"
+                placeholder="{{ 'general.search.placeholder' | t }}">
+    
+              <button type="submit" class="button">
+                {% include 'icon-search' %}
+                <span class="icon-fallback-text">{{ 'general.search.submit' | t }}</span>
+              </button>
+            </form>
+            -->
+          <div class="mobile-nav__icons">
+            {% include 'icon-search' %}
+            {% include 'icon-heart' %}
+            {% if settings.ajax_cart %}
+            <div class="ajax-cart-button">
+            {% endif %}
+            {% include 'icon-cart-white' %}
+            {% if settings.ajax_cart %}
+            </div>
+            {% endif %}
+          </div>
+          <div class="mobile-nav__links">
+            <a class="mobile-nav__contact">CONTACT</a>
+            <a class="mobile-nav__login" href="/account">LOGIN</a>
+          </div>
+        </div>
+
+    </nav>
+
+    <!-- ACCOUNT -->
+    {% if shop.customer_accounts_enabled %}
+      <ul>
+        {% if customer %}
+          <li>
+            {% if customer.first_name != blank %}
+              {% capture first_name %}<a href="/account">{{ customer.first_name }}</a>{% endcapture %}
+              {{ 'layout.customer.logged_in_as_html' | t: first_name: first_name }}
+            {% else %}
+              <a href="/account">{{ 'layout.customer.account' | t }}</a>
+            {% endif %}
+          </li>
+          <li>
+            {{ 'layout.customer.log_out' | t | customer_logout_link }}
+          </li>
+        {% else %}
+          <li>
+            {{ 'layout.customer.log_in' | t | customer_login_link }}
+          </li>
+          <li>
+            {{ 'layout.customer.create_account' | t | customer_register_link }}
+          </li>
+        {% endif %}
+      </ul>
+    {% endif %}
+
+    <!-- ICONS -->
+    <div class="header__buttons">
+      <a class="header__cart" href="/cart">
+        {% include 'icon-cart' %}
+        <!--
+        ({{ cart.item_count }} {{ 'layout.cart.items_count' | t: count: cart.item_count }})
+        -->
+      </a>
+      {% include 'icon-hamburger' %}
+    </div>
+    
+  </header>
+
+  
+</section>
+
+<script type="text/javascript">
+  $('.mobile-nav__expand-list').click(toggleSubList)
+  
+  function toggleSubList() {
+    const subList = $(this).find('.mobile-nav__subList');
+    if (subList.hasClass('active')) {
+      subList.removeClass('active');
+    } else {
+      subList.addClass('active');
+      console.log("expanding...")
+    }
+  }
+
+  $(".mobile-nav__expand-list").hover(
+    function() {
+      $(this).find('.mobile-nav__subList').addClass('active');
+      $("#mega-menu").removeClass("active");
+      $("#content-overlay").removeClass("active");
+    },
+    function() {
+      $(this).find('.mobile-nav__subList').removeClass('active');
+    }
+  )
+</script>
+
+{% if section.settings.logo != blank %}
+  <style>
+    .logo-image {
+      display: block;
+      max-width: {{ section.settings.logo_max_width }}px;
+    }
+  </style>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Header",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Announcement bar"
+      },
+      {
+        "type": "checkbox",
+        "id": "announcement_bar_enabled",
+        "label": "Show announcement",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "announcement_bar_home_page_only",
+        "label": "Show on home page only",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "announcement_bar_text",
+        "label": "Announcement text",
+        "default": "Announce something here"
+      },
+      {
+        "type": "url",
+        "id": "announcement_bar_link",
+        "label": "Announcement link",
+        "info": "Optional"
+      },
+      {
+        "type": "header",
+        "content": "Header"
+      },
+      {
+        "type": "checkbox",
+        "id": "svg_logo_enabled",
+        "label": "Use SVG Logo",
+        "default": false
+      },
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo image"
+      },
+      {
+        "type": "range",
+        "id": "logo_max_width",
+        "min": 50,
+        "max": 450,
+        "step": 10,
+        "unit": "px",
+        "label": "Custom logo width",
+        "default": 250
+      },
+      {
+        "type": "link_list",
+        "id": "menu",
+        "label": "Menu",
+        "default": "main-menu"
+      }
+    ]
+  }
+{% endschema %}
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "name": "{{ shop.name }}",
+  {% if section.settings.logo %}
+    {% assign image_size = section.settings.logo.width | append:'x' %}
+    "logo": "https:{{ section.settings.logo | img_url: image_size }}",
+  {% endif %}
+  "sameAs": [
+    "{{ settings.social_twitter_link }}",
+    "{{ settings.social_facebook_link }}",
+    "{{ settings.social_pinterest_link }}",
+    "{{ settings.social_instagram_link }}",
+    "{{ settings.social_tumblr_link }}",
+    "{{ settings.social_snapchat_link }}",
+    "{{ settings.social_youtube_link }}",
+    "{{ settings.social_vimeo_link }}"
+  ],
+  "url": "{{ shop.url }}{{ page.url }}"
+}
+</script>
+
+{% if template.name == 'index' %}
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "WebSite",
+      "name": "{{ shop.name }}",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "{{ shop.url }}/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      },
+      "url": "{{ shop.url }}{{ page.url }}"
+    }
+  </script>
+{% endif %}

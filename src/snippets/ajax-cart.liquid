@@ -1,0 +1,48 @@
+<style>
+  .ajax-cart {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 500px;
+      height: 100vh;
+      background-color: #FFFFFF;
+      padding-top: 131px;
+      display: none;
+      padding-left: 10px;
+      z-index: 99;
+  }
+
+  .ajax-cart.active {
+      display: block;
+  }
+
+  .ajax-cart-button {
+      cursor: pointer;
+  }
+</style>
+
+<div id="ajaxCart" class="ajax-cart">
+    <h3>AJAX CART</h3>
+    <p>Item Count: <span class="ajax-cart__item-count">{{ cart.item_count }}</span></p>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function() {
+
+        const ajaxButton = $(".ajax-cart-button");
+        ajaxButton.click(toggleAjaxCart);
+
+    })
+
+    toggleAjaxCart = function() {
+        const ajaxCart = $("#ajaxCart");
+        if(ajaxCart.hasClass("active")) {
+            ajaxCart.removeClass("active");
+        } else {
+            ajaxCart.addClass("active");
+        }
+    }
+    
+
+</script>
