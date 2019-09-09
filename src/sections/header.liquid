@@ -174,11 +174,20 @@
 
     <!-- ICONS -->
     <div class="header__buttons">
+      {% if settings.ajax_cart %}
+      <button class="header__cart ajax-cart-button">
+      {% else %}
       <a class="header__cart" href="/cart">
+      {% endif %}
         {% include 'icon-cart' %}
         <!--
         ({{ cart.item_count }} {{ 'layout.cart.items_count' | t: count: cart.item_count }})
         -->
+      {% if settings.ajax_cart %}
+      </button>
+      {% else %}
+      </a>
+      {% endif %}
       </a>
       {% include 'icon-hamburger' %}
     </div>

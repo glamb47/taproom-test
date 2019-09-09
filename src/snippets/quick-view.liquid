@@ -342,6 +342,7 @@
         const jsonData = JSON.parse(data);
         $(".ajax-cart__item-count").text(jsonData.item_count);
         $("#headerCartCount").text(jsonData.item_count);
+        console.log(jsonData);
     }
 
     addedToCartSuccess = function(data) {
