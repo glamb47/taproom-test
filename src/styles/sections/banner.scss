@@ -1,72 +1,72 @@
-.banner__content {
+.banner {
+    background-position: left 75%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: calc(100vh - 3em);
     position: relative;
-    top: 50%;
-    transform: translate(0, -50%);
-    padding: 0 54px 0 47px;
-    max-width: 579px;
-}
 
-.banner__header {
-    position: relative;
-    font-size: 25px;
-    line-height: 39px;
-    color: #FFFFFF;
-    margin: 0;
-    font-weight: 500;
-}
+    &__content {
+        position: relative;
+        top: 50%;
+        transform: translate(0, -50%);
+        padding: 0 54px 0 47px;
+        max-width: 579px;
+    }
 
-.banner__description {
-    position: relative;
-    font-style: italic;
-    font-size: 15px;
-    line-height: 30px;
-    color: #FFFFFF;
-    margin: 30px 0 0 0;
-    font-weight: 300;
-}
+    &__header {
+        position: relative;
+        font-size: 25px;
+        line-height: 39px;
+        color: #FFFFFF;
+        margin: 0;
+        font-weight: 500;
+    }
 
-.banner__button {
-    position: relative;
-    border-radius: 2px;
-    background-color: #29333F;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 14px;
-    color: #FFFFFF;
-    padding: 15px 20px;
-    border: none;
-    cursor: pointer;
-    text-decoration: none;
-    top: 20px;
+    &__description {
+        position: relative;
+        font-style: italic;
+        font-size: 15px;
+        line-height: 30px;
+        color: #FFFFFF;
+        margin: 30px 0 0 0;
+        font-weight: 300;
+    }
 }
 
 @media only screen and (min-device-width : 375px) {
 
-    .banner__content {
-        top: 65%;
-    }
 
-    .banner__header {
-        font-size: 29px;
-    }
+    .banner {
 
-    .banner__description {
-        font-size: 19px
-    }
+        &__content {
+            top: 65%;
+        }
 
+        &__header {
+            font-size: 29px;
+        }
+
+        &__description {
+            font-size: 19px
+        }
+
+    }
 }
 
 @media only screen and (min-device-width : 1024px) {
 
-    .banner__content {
-        top: 48%;
-        width: 579px;
-    }
+    .banner {
 
-    .banner__header {
-        font-size: 65px;
-        line-height: 71px;
+        &__content {
+            top: 48%;
+            width: 579px;
+        }
+
+        &__header {
+            font-size: 65px;
+            line-height: 71px;
+        }
+
     }
 
 }

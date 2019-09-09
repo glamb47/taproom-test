@@ -1,11 +1,6 @@
 <style>
   .banner {
     background-image: url({{ section.settings.background-mobile | img_url: '1965x' }});
-    background-position: left 75%;
-    background-size: cover;
-    background-repeat: no-repeat;
-    height: calc(100vh - 3em);
-    position: relative;
   }
 
   @media only screen and (min-device-width : 768px) {
@@ -19,7 +14,7 @@
   <div class="banner__content">
     <h2 class="banner__header">{{ section.settings.title }}</h2>
     <p class="banner__description">{{ section.settings.text }}</p>
-    <a class="banner__button" href="{{ section.settings.button_link }}">{{ section.settings.button_label }}</a>
+    <a class="button" href="{{ section.settings.button_link }}">{{ section.settings.button_label }}</a>
   </div>
 </div>
 

@@ -17,10 +17,10 @@
     
     <div class="featured-products__container">
     {% for product in collection.products limit: 6 %}
-        <div class="featured-products-item featured-product">
+        <div class="featured-products__item featured-product">
             {% if product.featured_image != blank %}
             <a href="{{ product.url | within: collection }}" >
-                <div class="featured-products-item__image">
+                <div class="featured-products__item-image">
                 {% include 'responsive-image' with
                     image: product.featured_image,
                     max_width: 480,
@@ -29,11 +29,11 @@
                 </div>
             </a>
             {% endif %}
-            <a href="{{ product.url | within: collection }}" class="featured-products-item">
-                <p class="featured-products-item__title">{{ product.title | escape }}</p>
+            <a href="{{ product.url | within: collection }}" class="featured-products__item">
+                <p class="featured-products__item-title">{{ product.title | escape }}</p>
             </a>
-            <a href="{{ product.url | within: collection }}" class="featured-products-item">
-            <span class="featured-products-item__price">
+            <a href="{{ product.url | within: collection }}" class="featured-products__item">
+            <span class="featured-products__item-price">
                 {% if product.compare_at_price > product.price %}
                     {% if product.price_varies %}
                         {%- assign sale_price = product.price | money -%}
@@ -53,9 +53,9 @@
             </span>
             </a>
             {% if settings.quick-view %}
-            <button class="featured-products-item__button" data-handle="{{ product.handle }}">{{ settings.qv-btn-text }}</button>
+            <button class="featured-products__item-button" data-handle="{{ product.handle }}">{{ settings.qv-btn-text }}</button>
             {% else %}
-            <div class="featured-products-item__block">{{ section.settings.button-text }}</div>
+            <div class="featured-products__item-block">{{ section.settings.button-text }}</div>
             {% endif %}
         </div>
         {% else %}

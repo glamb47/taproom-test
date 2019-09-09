@@ -11,36 +11,38 @@
   - Home page only: only shows on the home page
 {%- endcomment -%}
 
-<section data-section-id="{{ section.id }}" data-section-type="header" class="header">
+<section data-section-id="{{ section.id }}" data-section-type="header">
 
   <!-- ANNOUNCEMENT -->
   {%- if section.settings.announcement_bar_enabled -%}
-    <div class="header__announcement">
+    <div class="announcement">
       {%- if section.settings.announcement_bar_home_page_only == false or template.name == 'index' -%}
         {%- if section.settings.announcement_bar_link != blank -%}
-          <a href="{{ section.settings.announcement_bar_link }}">
+          <a class="announcement__text" href="{{ section.settings.announcement_bar_link }}">
             {{ section.settings.announcement_bar_text | escape }}
           </a>
         {%- else -%}
-          <p class="header__announcement-text">{{ section.settings.announcement_bar_text | escape }}</p>
+          <p class="announcement__text">{{ section.settings.announcement_bar_text | escape }}</p>
         {%- endif -%}
       {%- endif -%}
     </div>
   {%- endif -%}
 
   <!-- HEADER -->
-  <header class="header__bar" role="banner">
+  <header class="header" role="banner">
 
     <!-- CART COUNT -->
     {% if settings.ajax_cart %}
-    <div class="header__cart-count">
-        <span id="headerCartCount" class="header__cart-count-number">{{ cart.item_count }}</span>
+    <div class="cart-count">
+        <span id="headerCartCount" class="cart-count__number">{{ cart.item_count }}</span>
     </div>
     {% endif %}
 
     <!-- LOGO/TITLE -->
     {% if section.settings.svg_logo_enabled %}
+      <a class="header__title" href="/">
       {% include 'svg-logo' %}
+      </a>
     {% else %}
     
     {% if template.name == 'index' %}
@@ -68,12 +70,12 @@
 
     <!-- NAVIGATION MENU -->
     <input class="header__hamburger" type="checkbox" name="navigation" value="Ham">
-    <nav class="mobile-nav" role="navigation">
+    <nav class="menu" role="navigation">
 
-        <ul class="mobile-nav__list">
+        <ul class="menu__list">
           {% if settings.mega-menu %}
-          <li id="mega-menu-activator" class="mobile-nav__listItem mega-menu__activator">
-              <div class="mobile-nav__category">
+          <li id="mega-menu-activator" class="menu__list-item mega-menu__activator">
+              <div class="menu__list-item-container">
                 <span>{{ settings.mega-menu-title }}</span>
                 {% include 'icon-plus' %}
               </div>
@@ -81,15 +83,15 @@
           {% endif %}
           {% for link in linklists[section.settings.menu].links %}
             {% if link.links != blank %}
-              <li class="mobile-nav__listItem mobile-nav__expand-list">
-                <div class="mobile-nav__category">
+              <li class="menu__list-item menu__expand-list">
+                <div class="menu__list-item-container">
                   <span>{{ link.title }}</span>
                   {% include 'icon-plus' %}
                 </div>
-                <ul class="mobile-nav__subList">
+                <ul class="menu__sub-list">
                   {% for childlink in link.links %}
-                    <li class="mobile-nav__subListItem">
-                      <a class="mobile-nav__subLink" href="{{ childlink.url }}">
+                    <li class="menu__sub-list-item">
+                      <a class="menu__sub-link" href="{{ childlink.url }}">
                         {{ childlink.title }}
                       </a>
                     </li>
@@ -97,8 +99,8 @@
                 </ul>
               </li>
             {% else %}
-              <li class="mobile-nav__listItem">
-                <a class="mobile-nav__listLink" href="{{ link.url }}">
+              <li class="menu__list-item">
+                <a class="menu__list-link" href="{{ link.url }}">
                   {{ link.title }}
                 </a>
               </li>
@@ -106,7 +108,7 @@
           {% endfor %}
         </ul>
         
-        <div class="mobile-nav__footer">
+        <div class="menu__footer">
             <!--  
             <form action="/search" method="get" role="search">
               <label for="Search-{{ section.id }}" class="label-hidden">
@@ -125,7 +127,7 @@
               </button>
             </form>
             -->
-          <div class="mobile-nav__icons">
+          <div class="menu__icons">
             {% include 'icon-search' %}
             {% include 'icon-heart' %}
             {% if settings.ajax_cart %}
@@ -136,9 +138,9 @@
             </div>
             {% endif %}
           </div>
-          <div class="mobile-nav__links">
-            <a class="mobile-nav__contact">CONTACT</a>
-            <a class="mobile-nav__login" href="/account">LOGIN</a>
+          <div class="menu__links">
+            <a class="menu__contact">CONTACT</a>
+            <a class="menu__login" href="/account">LOGIN</a>
           </div>
         </div>
 
@@ -187,28 +189,23 @@
 </section>
 
 <script type="text/javascript">
-  $('.mobile-nav__expand-list').click(toggleSubList)
+
+  const subMenuBtn = $('.menu__expand-list');
+
+  subMenuBtn.click(toggleSubList);
   
   function toggleSubList() {
-    const subList = $(this).find('.mobile-nav__subList');
+    const subList = $(this).find('.menu__sub-list'),
+      icon = $(this).find('svg');
     if (subList.hasClass('active')) {
+      icon.removeClass('active');
       subList.removeClass('active');
     } else {
+      icon.addClass('active');
       subList.addClass('active');
-      console.log("expanding...")
     }
   }
 
-  $(".mobile-nav__expand-list").hover(
-    function() {
-      $(this).find('.mobile-nav__subList').addClass('active');
-      $("#mega-menu").removeClass("active");
-      $("#content-overlay").removeClass("active");
-    },
-    function() {
-      $(this).find('.mobile-nav__subList').removeClass('active');
-    }
-  )
 </script>
 
 {% if section.settings.logo != blank %}

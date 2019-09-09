@@ -245,7 +245,7 @@
 
     $(document).ready(function() {
 
-        const featuredProductButtons = $(".featured-products-item__button");
+        const featuredProductButtons = $(".featured-products__item-button");
         const featuredProducts = $(".featured-product");
         const quickView = $("#quick-view");
         const overlay = $("#content-overlay");
@@ -281,7 +281,7 @@
     }
 
     scaleBtnUp = function() {
-        $(this).find(".featured-products-item__button").css(
+        $(this).find(".featured-products__item-button").css(
             {"transform": "translate(-50%, -50%) scale(1.2)",
              "visibility": "visible",
               "opacity": "1"
@@ -290,7 +290,7 @@
     }
 
     scaleBtnDown = function() {
-        $(this).find(".featured-products-item__button").css(
+        $(this).find(".featured-products__item-button").css(
             {
                 "transform": "translate(-50%, -50%) scale(1)",
                 "visibility": "hidden",
